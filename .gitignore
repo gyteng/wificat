@@ -34,3 +34,5 @@ bower_components
 logs/*
 !logs/logs.file.here
 .idea/
+
+sftp-config.json
