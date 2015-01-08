@@ -1,0 +1,7 @@
+{
+    "name": "WifiDogServer",
+    "version": "0.1.0",
+    "dependencies": {
+        "express" : "4.10.7"
+    }
+}

@@ -1,0 +1,36 @@
+# --------------------
+# OSX Files
+# --------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# --------------------
+# Node Files
+# --------------------
+.nodemonignore
+npm-debug.log
+node_modules/
+
+# --------------------
+# SASS Files
+# --------------------
+.sass-cache/
+
+# --------------------
+# Bower Files
+# --------------------
+.bower-*/
+bower_components
+
+# --------------------
+# App Files
+# --------------------
+/public/build/
+logs/*
+!logs/logs.file.here
+.idea/
