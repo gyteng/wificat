@@ -1,0 +1,4 @@
+wificat
+=======
+
+Server for wifidog.
