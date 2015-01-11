@@ -2,6 +2,7 @@
     "name": "WifiDogServer",
     "version": "0.1.0",
     "dependencies": {
-        "express" : "4.10.7"
+        "express" : "4.10.7",
+        "mongoose" : "3.8.21"
     }
 }
