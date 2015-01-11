@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var mongo = require('./db/password.js');
 
 app.use(express.static(__dirname));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
@@ -43,6 +44,7 @@ app.get('/portal', function (req, res) {
 //     console.log(req.query);
 // });
 
-
-
 app.listen(50006);
+
+// var mongo = require('./db/password.js');
+// mongo.addPassword('junjun');
