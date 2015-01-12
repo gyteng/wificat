@@ -17,13 +17,13 @@
     </head>
     <body>
       <div class="container">
-        <form method="get">
+        <form action="{{request}}" method="post">
 
           <div class="col-sm-12" style="height: 75px;"></div>
 
           <div class="col-sm-4"></div>
           <div class="col-sm-4">
-            <label for="password"><h3>请输入密码：</h3></label>
+            <label name="pwd" for="password"><h3>请输入密码：</h3></label>
             <input type="password" name="pwd" class="form-control input-lg" id="password" placeholder="Enter password">
           </div>
           <div class="col-sm-4"></div>
@@ -38,6 +38,8 @@
         </form>
       </div>
 
+      <script src="http://42.159.194.87:50006/bower_components/jquery/dist/jquery.min.js"></script>
       <script src="http://42.159.194.87:50006/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+      
     </body>
     </html>

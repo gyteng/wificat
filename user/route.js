@@ -5,6 +5,11 @@ exports.login = function(req, res, next) {
     app.login(req, res, next);
 };
 
+exports.password = function(req, res, next) {
+    var app = require('./' + req.query.gw_id + '/app.js');
+    app.password(req, res, next);
+};
+
 exports.auth = function(req, res, next) {
     var app = require('./' + req.query.gw_id + '/app.js');
     app.auth(req, res, next);

@@ -8,8 +8,7 @@ mongoose.connection.on('error',function (err) {
 });
 
 var RouteSchema = new Schema({
-    routeId   :String,
-    password  :String
+    routeId   :String
 });
 
 var Route = mongoose.model('Route', RouteSchema);
@@ -17,6 +16,13 @@ var Route = mongoose.model('Route', RouteSchema);
 exports.getRoute = function(myId) {
     return mongoose.model('Route')
     .findOne({routeId: myId})
+    .exec();
+};
+
+exports.getPassword = function(myId, password) {
+    return mongoose.model('Route')
+    .findOne({routeId: myId})
+    .where('auth.junjunjun').exists()
     .exec();
 };
 
