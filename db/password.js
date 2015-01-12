@@ -1,9 +1,10 @@
 var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
+var config   = require('../config').conf;
 
-mongoose.connect('mongodb://127.0.0.1/wificat');
+mongoose.connect(config.mongo);
 mongoose.connection.on('error',function (err) {
-    logger.error('Mongoose连接失败: ' + err);
+    console.error('Mongoose连接失败: ' + err);
 });
 
 var PasswordSchema = new Schema({

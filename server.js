@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var mongo = require('./db/password.js');
+var route = require('./db/route.js');
 
 app.use(express.static(__dirname));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
@@ -29,8 +30,14 @@ app.get('/auth', function (req, res) {
 });
 
 app.get('/ping', function (req, res) {
-    console.log(req.url);
-    res.send('Pong');
+    if(req.query.gw_id) {
+        route.getRoute(req.query.gw_id).then(function(data) {
+            if(!!data) {
+                console.log('Receive "Ping" from [' + data.routeId + ']');
+                res.send('Pong');
+            }
+        });
+    }
 });
 
 app.get('/portal', function (req, res) {
@@ -46,5 +53,5 @@ app.get('/portal', function (req, res) {
 
 app.listen(50006);
 
-// var mongo = require('./db/password.js');
-// mongo.addPassword('junjun');
+// var mongo = require('./db/route.js');
+// mongo.addRoute('wr720n112304');
