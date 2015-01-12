@@ -6,7 +6,10 @@ var log4js = require('log4js');
 log4js.configure({
     appenders: [
         { type: 'console' },
-        { type: 'dateFile', filename: 'logs/ping.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false,category: 'PIN'}
+        { type: 'dateFile', filename: 'logs/ping.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false,category: 'PIN'},
+        { type: 'dateFile', filename: 'logs/login.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false,category: 'LOG'},
+        { type: 'dateFile', filename: 'logs/auth.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false,category: 'AUT'},
+        { type: 'dateFile', filename: 'logs/portal.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false,category: 'POR'}
     ]
 });
 
@@ -26,3 +29,4 @@ Date.prototype.format = function (format) {
             format = format.replace(RegExp.$1, RegExp.$1.length === 1 ? formatStrs[str] : ('00' + formatStrs[str]).substr(('' + formatStrs[str]).length));
     return format;
 };
+
