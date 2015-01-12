@@ -3,6 +3,7 @@
     "version": "0.1.0",
     "dependencies": {
         "express" : "4.10.7",
-        "mongoose" : "3.8.21"
+        "mongoose": "3.8.21",
+        "log4js"  : "0.6.21"
     }
 }

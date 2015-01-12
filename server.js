@@ -1,10 +1,14 @@
+var log4js  = require('log4js');
+var config  = require('./config.js').conf;
 var express = require('express');
-var app = express();
-var mongo = require('./db/password.js');
-var route = require('./db/route.js');
 
+var mongo   = require('./db/password.js');
+var route   = require('./db/route.js');
+var logger  = log4js.getLogger('PIN');
+
+var app = express();
 app.use(express.static(__dirname));
-app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
 app.get('/login', function (req, res) {
     console.log('login');
@@ -19,7 +23,6 @@ app.get('/login', function (req, res) {
     } else {
         res.sendfile('./auth.html');
     }
-    
 });
 
 app.get('/auth', function (req, res) {
@@ -29,15 +32,14 @@ app.get('/auth', function (req, res) {
     res.send('Auth: 1');
 });
 
-app.get('/ping', function (req, res) {
-    if(req.query.gw_id) {
-        route.getRoute(req.query.gw_id).then(function(data) {
-            if(!!data) {
-                console.log('Receive "Ping" from [' + data.routeId + ']');
-                res.send('Pong');
-            }
-        });
-    }
+app.get('/ping', function(req, res) {
+    if (!req.query.gw_id) { return; }
+    route.getRoute(req.query.gw_id).then(function(data) {
+        if (!data) { return; }
+        logger.info('Receive "Ping" from [' + data.routeId + ']');
+        // logger.info('Receive "Ping" from [' + data.routeId + ']:\n' + JSON.stringify(req.query, null, 4));
+        res.send('Pong');
+    });
 });
 
 app.get('/portal', function (req, res) {
