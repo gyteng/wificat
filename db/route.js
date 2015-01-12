@@ -7,27 +7,28 @@ mongoose.connection.on('error',function (err) {
     console.error('Mongoose连接失败: ' + err);
 });
 
-var RouteSchema = new Schema({
-    routeId   :String
+var TokenSchema = new Schema({
+    routeId   :String,
+    mac       :String,
 });
 
-var Route = mongoose.model('Route', RouteSchema);
+var Token = mongoose.model('Token', TokenSchema);
 
-exports.getRoute = function(myId) {
-    return mongoose.model('Route')
-    .findOne({routeId: myId})
-    .exec();
-};
+// exports.getRoute = function(myId) {
+//     return mongoose.model('Route')
+//     .findOne({routeId: myId})
+//     .exec();
+// };
 
-exports.getPassword = function(myId, password) {
-    return mongoose.model('Route')
-    .findOne({routeId: myId})
-    .where('auth.junjunjun').exists()
-    .exec();
-};
+// exports.getPassword = function(myId, password) {
+//     return mongoose.model('Route')
+//     .findOne({routeId: myId})
+//     .where('auth.junjunjun').exists()
+//     .exec();
+// };
 
 exports.addRoute = function(myId) {
-    var route = new Route({ routeId: myId });
+    var token = new Token({ routeId: myId });
     route.save(function (err) {
         if (err) return handleError(err);
         }
