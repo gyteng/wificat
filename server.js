@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 
 var route   = require('./db/route.js');
+var token   = require('./db/token.js');
 var logger  = log4js.getLogger('PIN');
 var user = require('./user/route.js');
 
@@ -35,6 +36,6 @@ app.get('/ping', function(req, res) {
 app.listen(50006);
 
 // console.log('GG');
-// route.getPassword('wr720n112304', 'junjunjun1', function(data) {
+// token.checkMac('wr720n112304', '0123456', function(data) {
 //     console.log(data);
 // });

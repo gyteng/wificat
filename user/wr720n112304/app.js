@@ -19,16 +19,28 @@ var checkPassword = function(password, mac, cb) {
 };
 
 exports.login = function(req, res, next) {
-    fs.readFile('./user/wr720n112304/login.html', function(err,data) {
-        if(err) {
-            res.sendStatus(404);
+    console.log('login:');
+    console.log(req.url);
+    console.log(req.query);
+    token.checkMac('wr720n112304', req.query.mac, function(token) {
+        if(token) {
+            res.redirect('http://' + req.query.gw_address + ':' + req.query.gw_port + '/wifidog/auth?token=' + token);
             return;
+        } else {
+            fs.readFile('./user/wr720n112304/login.html', function(err, data) {
+                if (err) {
+                    res.sendStatus(404);
+                    return;
+                }
+                res.send(data.toString().replace(/{{request}}/, req.url));
+            });
         }
-        res.send(data.toString().replace(/{{request}}/, req.url));
     });
+    
 };
 
 exports.password = function(req, res, next) {
+    console.log('Enter password: ' + req.body.pwd);
     checkPassword(req.body.pwd, req.query.mac, function(token) {
         if(!token) {
             res.sendFile('failure.html', {

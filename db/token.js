@@ -18,19 +18,6 @@ var TokenSchema = new Schema({
 
 var Token = mongoose.model('Token', TokenSchema);
 
-// exports.getRoute = function(myId) {
-//     return mongoose.model('Route')
-//     .findOne({routeId: myId})
-//     .exec();
-// };
-
-// exports.getPassword = function(myId, password) {
-//     return mongoose.model('Route')
-//     .findOne({routeId: myId})
-//     .where('auth.junjunjun').exists()
-//     .exec();
-// };
-
 exports.addToken = function(routeId, mac, validTime, cb) {
     var now = new Date();
     var md5 = crypto.createHash('md5');
@@ -55,7 +42,24 @@ exports.checkToken = function(token, cb) {
         if(!data) { cb(null); return; }
         validTime = data.validTime;
         var now = new Date();
-        if(now < validTime) { cb(null); return; }
+        if(now > validTime) { cb(null); return; }
         cb('AuthSuccess');
+    });
+};
+
+exports.checkMac = function(routeId, mac, cb) {
+    mongoose.model('Token')
+    .findOne({
+        routeId : routeId,
+        mac     : mac
+    })
+    .sort('-validTime')
+    .exec(function(err, data) {
+        if(err) { cb(null); return; }
+        if(!data) { cb(null); return; }
+        validTime = data.validTime;
+        var now   = new Date();
+        if(now > validTime) { cb(null); return; }
+        cb(data.token);
     });
 };
