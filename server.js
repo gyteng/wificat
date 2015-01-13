@@ -33,9 +33,26 @@ app.get('/ping', function(req, res) {
     });
 });
 
+app.get('/gw_message.php', function(req, res) {
+    res.sendFile('gw_message.html', {
+            root: __dirname
+        },
+        function(err) {
+            if (err) {
+                res.sendStatus(404);
+            }
+        }
+    );
+});
+
+app.get('/qrcode/:routeId', user.qrcode);
+
 app.listen(50006);
 
 // console.log('GG');
-// token.checkMac('wr720n112304', '0123456', function(data) {
+// route.addPassword('wr720n112304', {gytgytgyt: {type: 1, time: 60}}, function(err, data) {
+//     console.log(err);
 //     console.log(data);
 // });
+
+// route.addRoute('wr720n112304');

@@ -19,3 +19,8 @@ exports.portal = function(req, res, next) {
     var app = require('./' + req.query.gw_id + '/app.js');
     app.portal(req, res, next);
 };
+
+exports.qrcode = function(req, res, next) {
+    var app = require('./' + req.params.routeId + '/app.js');
+    app.qrcode(req, res, next);
+};

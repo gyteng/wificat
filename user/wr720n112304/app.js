@@ -14,6 +14,14 @@ var checkPassword = function(password, mac, cb) {
             token.addToken('wr720n112304', mac, validTime, function(data) {
                 cb(data);
             });
+        } else if (data.type === 2) {
+            route.removePassword('wr720n112304', password, function(err) {
+                if(!err) {
+                    token.addToken('wr720n112304', mac, data.time, function(data) {
+                        cb(data);
+                    });
+                }
+            });
         }
     });
 };
@@ -75,6 +83,19 @@ exports.portal = function(req, res, next) {
     }, function(err) {
         if (err) {
             res.sendStatus(404);
+        }
+    });
+};
+
+exports.qrcode = function(req, res, next) {
+    var random = Math.ceil(Math.random()*1000000000000).toString();
+    var password = {};
+    var time = new Date();
+    time = time.setTime(time.getTime() + 60 * 60000);
+    password[random] = {type : 2, time: time};
+    route.addPassword('wr720n112304', password, function(p) {
+        if(p) {
+            res.send(random);
         }
     });
 };
