@@ -1,35 +1,48 @@
-var mongoose = require('mongoose');
-var Schema   = mongoose.Schema;
-var config   = require('../config').conf;
+ var mongoose = require('mongoose');
+ var Schema   = mongoose.Schema;
+ var config   = require('../config').conf;
+ var crypto = require('crypto');
 
 mongoose.connect(config.mongo);
 mongoose.connection.on('error',function (err) {
     console.error('Mongoose连接失败: ' + err);
 });
 
-var RouteSchema = new Schema({
-    routeId   :String
+var TokenSchema = new Schema({
+    routeId   :String,
+    mac       :String,
+    token     :String,
+    systemTime:{type:Date,default:Date.now},
+    validTime :{type:Date}
 });
 
-var Route = mongoose.model('Route', RouteSchema);
+var Token = mongoose.model('Token', TokenSchema);
 
-exports.getRoute = function(myId) {
-    return mongoose.model('Route')
-    .findOne({routeId: myId})
-    .exec();
-};
+// exports.getRoute = function(myId) {
+//     return mongoose.model('Route')
+//     .findOne({routeId: myId})
+//     .exec();
+// };
 
-exports.getPassword = function(myId, password) {
-    return mongoose.model('Route')
-    .findOne({routeId: myId})
-    .where('auth.junjunjun').exists()
-    .exec();
-};
+// exports.getPassword = function(myId, password) {
+//     return mongoose.model('Route')
+//     .findOne({routeId: myId})
+//     .where('auth.junjunjun').exists()
+//     .exec();
+// };
 
-exports.addRoute = function(myId) {
-    var route = new Route({ routeId: myId });
-    route.save(function (err) {
-        if (err) return handleError(err);
-        }
-    );
+exports.addToken = function(routeId, mac, validTime) {
+    var now = new Date();
+    var md5 = crypto.createHash('md5');
+    var newToken =  md5.update('' + routeId + mac + now).digest('hex');
+
+    var token = new Token({
+        routeId: routeId,
+        mac: mac,
+        validTime: validTime,
+        token: newToken
+    });
+    token.save(function(err) {
+        if (err) { return handleError(err); }
+    });
 };

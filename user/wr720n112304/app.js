@@ -1,5 +1,6 @@
-var fs = require('fs');
-var route   = require('../../db/route.js');
+var fs    = require('fs');
+var route = require('../../db/route.js');
+var token = require('../../db/token.js');
 
 exports.login = function(req, res, next) {
     fs.readFile('./user/wr720n112304/login.html', function(err,data) {

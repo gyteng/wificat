@@ -26,7 +26,7 @@ app.get('/ping', function(req, res) {
     if (!req.query.gw_id) { return; }
     route.getRoute(req.query.gw_id).then(function(data) {
         if (!data) { return; }
-        // logger.info('Receive "Ping" from [' + data.routeId + ']');
+        logger.info('Receive "Ping" from [' + data.routeId + ']');
         // logger.info('Receive "Ping" from [' + data.routeId + ']:\n' + JSON.stringify(req.query, null, 4));
         res.send('Pong');
     });
@@ -34,8 +34,8 @@ app.get('/ping', function(req, res) {
 
 app.listen(50006);
 
-console.log('GG');
-route.getPassword('wr720n112304', 'junjunjun').then(function(d) {
-    console.log('a');
-    console.log(d);
-});
+// console.log('GG');
+// route.getPassword('wr720n112304', 'junjunjun').then(function(d) {
+//     console.log('a');
+//     console.log(d);
+// });
