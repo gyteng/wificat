@@ -55,20 +55,6 @@ exports.password = function(req, res, next) {
         }
         res.redirect('http://' + req.query.gw_address + ':' + req.query.gw_port + '/wifidog/auth?token=' + token);
     });
-
-
-
-    // if(req.body.pwd === 'junjunjun') {
-    //     res.redirect('http://' + req.query.gw_address + ':' + req.query.gw_port + '/wifidog/auth?token=1234567890');
-    // } else {
-    //     res.sendFile('failure.html', {
-    //         root: __dirname
-    //     }, function(err) {
-    //         if (err) {
-    //             res.sendStatus(404);
-    //         }
-    //     });
-    // }
 };
 
 exports.auth = function(req, res, next) {
