@@ -31,11 +31,10 @@ var Token = mongoose.model('Token', TokenSchema);
 //     .exec();
 // };
 
-exports.addToken = function(routeId, mac, validTime) {
+exports.addToken = function(routeId, mac, validTime, cb) {
     var now = new Date();
     var md5 = crypto.createHash('md5');
     var newToken =  md5.update('' + routeId + mac + now).digest('hex');
-
     var token = new Token({
         routeId: routeId,
         mac: mac,
@@ -43,6 +42,20 @@ exports.addToken = function(routeId, mac, validTime) {
         token: newToken
     });
     token.save(function(err) {
-        if (err) { return handleError(err); }
+        if (err) { cb(null); return; }
+        cb(newToken);
+    });
+};
+
+exports.checkToken = function(token, cb) {
+    mongoose.model('Token')
+    .findOne({token: token})
+    .exec(function(err, data) {
+        if(err) { cb(null); return; }
+        if(!data) { cb(null); return; }
+        validTime = data.validTime;
+        var now = new Date();
+        if(now < validTime) { cb(null); return; }
+        cb('AuthSuccess');
     });
 };

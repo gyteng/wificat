@@ -35,7 +35,6 @@ app.get('/ping', function(req, res) {
 app.listen(50006);
 
 // console.log('GG');
-// route.getPassword('wr720n112304', 'junjunjun').then(function(d) {
-//     console.log('a');
-//     console.log(d);
+// route.getPassword('wr720n112304', 'junjunjun1', function(data) {
+//     console.log(data);
 // });

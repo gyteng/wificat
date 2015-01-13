@@ -13,21 +13,26 @@ var RouteSchema = new Schema({
 
 var Route = mongoose.model('Route', RouteSchema);
 
-exports.getRoute = function(myId) {
+exports.getRoute = function(routeId) {
     return mongoose.model('Route')
-    .findOne({routeId: myId})
+    .findOne({routeId: routeId})
     .exec();
 };
 
-exports.getPassword = function(myId, password) {
-    return mongoose.model('Route')
-    .findOne({routeId: myId})
-    .where('auth.junjunjun').exists()
-    .exec();
+exports.getPassword = function(routeId, password, cb) {
+    mongoose.model('Route')
+    .findOne({routeId: routeId})
+    .where('auth.' + password).exists()
+    .exec(function(err, data) {
+        data = JSON.parse(JSON.stringify(data));
+        if(err) { cb(null); return; }
+        if(!data) { cb(null); return; }
+        cb(data.auth[password]);
+    });
 };
 
-exports.addRoute = function(myId) {
-    var route = new Route({ routeId: myId });
+exports.addRoute = function(routeId) {
+    var route = new Route({ routeId: routeId });
     route.save(function (err) {
         if (err) return handleError(err);
         }
