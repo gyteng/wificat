@@ -16,11 +16,13 @@ var checkPassword = function(password, mac, cb) {
             });
         } else if (data.type === 2) {
             route.removePassword('wr720n112304', password, function(err) {
-                if(!err) {
-                    token.addToken('wr720n112304', mac, data.time, function(data) {
-                        cb(data);
-                    });
+                if(err) {
+                    cb(null);
+                    return;
                 }
+                token.addToken('wr720n112304', mac, data.time, function(data) {
+                    cb(data);
+                });
             });
         }
     });
@@ -88,14 +90,21 @@ exports.portal = function(req, res, next) {
 };
 
 exports.qrcode = function(req, res, next) {
-    var random = Math.ceil(Math.random()*1000000000000).toString();
+    var random = Math.ceil(Math.random()*100000000000).toString();
+    var passwordPretty = random.substring(0,4) + '&nbsp;' + random.substring(4,8) + '&nbsp;' + random.substring(8);
     var password = {};
     var time = new Date();
     time = time.setTime(time.getTime() + 60 * 60000);
     password[random] = {type : 2, time: time};
     route.addPassword('wr720n112304', password, function(p) {
         if(p) {
-            res.send(random);
+            fs.readFile('./user/wr720n112304/qrcode.html', function(err, data) {
+                if (err) {
+                    res.sendStatus(404);
+                    return;
+                }
+                res.send(data.toString().replace(/{{password}}/, passwordPretty));
+            });
         }
     });
 };
