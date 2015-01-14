@@ -73,6 +73,23 @@ exports.removePassword = function(routeId, password, cb) {
     });
 };
 
+exports.getList = function(routeId, mac, cb) {
+    mongoose.model('Route')
+    .findOne({routeId: routeId})
+    .select('list')
+    .exec(function(err, data) {
+        if(err) { cb(err); return; }
+        if(!data) { cb('Find nothing'); return; }
+        for(var i in data.list) {
+            if(data.list[i].mac === mac) {
+                cb(null, data.list[i]);
+                return;
+            }
+        }
+        cb('Find nothing');
+    });
+};
+
 exports.addRoute = function(routeId) {
     var route = new Route({ routeId: routeId });
     route.save(function (err) {

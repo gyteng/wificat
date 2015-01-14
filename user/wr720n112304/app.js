@@ -41,7 +41,6 @@ exports.login = function(req, res, next) {
         }
         res.redirect('http://' + req.query.gw_address + ':' + req.query.gw_port + '/wifidog/auth?token=' + token);
     });
-    
 };
 
 exports.password = function(req, res, next) {
