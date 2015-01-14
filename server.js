@@ -50,9 +50,14 @@ app.get('/qrcode/:routeId', user.qrcode);
 app.listen(50006);
 
 // console.log('GG');
-// route.addPassword('wr720n112304', {gytgytgyt: {type: 1, time: 60}}, function(err, data) {
+// route.addPassword('wr720n112304', {value: 'gytgytgyt', type: 1, time: 60}, function(err, data) {
 //     console.log(err);
 //     console.log(data);
 // });
 
-// route.addRoute('wr720n112304');
+// route.getPassword('gyt', 'gggh', function(err, data) {
+//     console.log(err);
+//     console.log(data);
+// });
+
+// route.addRoute('gyt');

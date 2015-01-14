@@ -29,8 +29,8 @@ exports.addToken = function(routeId, mac, validTime, cb) {
         token: newToken
     });
     token.save(function(err) {
-        if (err) { cb(null); return; }
-        cb(newToken);
+        if (err) { cb(err); return; }
+        cb(null, newToken);
     });
 };
 
@@ -38,12 +38,12 @@ exports.checkToken = function(token, cb) {
     mongoose.model('Token')
     .findOne({token: token})
     .exec(function(err, data) {
-        if(err) { cb(null); return; }
-        if(!data) { cb(null); return; }
+        if(err) { cb(err); return; }
+        if(!data) { cb('Find nothing'); return; }
         validTime = data.validTime;
         var now = new Date();
-        if(now > validTime) { cb(null); return; }
-        cb('AuthSuccess');
+        if(now > validTime) { cb('Token out of date'); return; }
+        cb(null, token);
     });
 };
 
@@ -55,11 +55,11 @@ exports.checkMac = function(routeId, mac, cb) {
     })
     .sort('-validTime')
     .exec(function(err, data) {
-        if(err) { cb(null); return; }
-        if(!data) { cb(null); return; }
+        if(err) { cb(err); return; }
+        if(!data) { cb('Find nothing'); return; }
         validTime = data.validTime;
         var now   = new Date();
-        if(now > validTime) { cb(null); return; }
-        cb(data.token);
+        if(now > validTime) { cb('Token out of date'); return; }
+        cb(null, data.token);
     });
 };
