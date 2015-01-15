@@ -27,7 +27,6 @@ var checkPassword = function(password, mac, cb) {
 };
 
 exports.login = function(req, res, next ) {
-
     token.checkMac(routeName, req.query.mac, function(err, token) {
         if (err) {
             route.getList(routeName, req.query.mac, function(err, list) {
