@@ -80,6 +80,7 @@ exports.getList = function(routeId, mac, cb) {
     .exec(function(err, data) {
         if(err) { cb(err); return; }
         if(!data) { cb('Find nothing'); return; }
+        data = JSON.parse(JSON.stringify(data));
         for(var i in data.list) {
             if(data.list[i].mac === mac) {
                 cb(null, data.list[i]);

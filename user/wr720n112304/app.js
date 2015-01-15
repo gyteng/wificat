@@ -29,13 +29,21 @@ exports.login = function(req, res, next) {
     console.log(req.url);
     console.log(req.query);
     token.checkMac(routeName, req.query.mac, function(err, token) {
-        if(err) {
-            fs.readFile('./user/' + routeName + '/login.html', function(err, data) {
-                if (err) {
-                    res.sendStatus(404);
-                    return;
+        if (err) {
+            route.getList(routeName, req.query.mac, function(err, list) {
+                var welcome = '';
+                if (err || !list.name) {
+                } else {
+                    welcome = '<h3>你好，' + list.name + '<h3><br>';
                 }
-                res.send(data.toString().replace(/{{request}}/, req.url));
+                fs.readFile('./user/' + routeName + '/login.html', function(err, data) {
+                    if (err) {
+                        res.sendStatus(404);
+                        return;
+                    }
+                    res.send(data.toString().replace(/{{request}}/, req.url).replace(/{{welcome}}/, welcome));
+                });
+                return;
             });
             return;
         }
