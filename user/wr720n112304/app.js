@@ -1,6 +1,8 @@
 var fs        = require('fs');
+var async     = require('async');
 var route     = require('../../db/route.js');
 var token     = require('../../db/token.js');
+
 var routeName = 'wr720n112304';
 
 var checkPassword = function(password, mac, cb) {
