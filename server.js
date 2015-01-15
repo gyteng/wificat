@@ -1,18 +1,19 @@
-var log4js  = require('log4js');
-var config  = require('./config.js').conf;
-var express = require('express');
+var log4js     = require('log4js');
+var express    = require('express');
+var multer     = require('multer');
 var bodyParser = require('body-parser');
-var multer = require('multer');
+var config     = require('./config.js').conf;
+var route      = require('./db/route.js');
+var token      = require('./db/token.js');
+var user       = require('./user/route.js');
 
-var route   = require('./db/route.js');
-var token   = require('./db/token.js');
-var logger  = log4js.getLogger('PIN');
-var user = require('./user/route.js');
+var logPIN = log4js.getLogger('PIN');
 
 var app = express();
+app.use(multer());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(multer());
+
 app.use(express.static(__dirname));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
@@ -27,8 +28,8 @@ app.get('/ping', function(req, res) {
     if (!req.query.gw_id) { return; }
     route.getRoute(req.query.gw_id).then(function(data) {
         if (!data) { return; }
-        logger.info('Receive "Ping" from [' + data.routeId + ']');
-        // logger.info('Receive "Ping" from [' + data.routeId + ']:\n' + JSON.stringify(req.query, null, 4));
+        logPIN.info('Receive "Ping" from [' + data.routeId + ']');
+        // logPIN.info('Receive "Ping" from [' + data.routeId + ']:\n' + JSON.stringify(req.query, null, 4));
         res.send('Pong');
     });
 });

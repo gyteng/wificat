@@ -9,7 +9,8 @@ log4js.configure({
         { type: 'dateFile', filename: 'logs/ping.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false,category: 'PIN'},
         { type: 'dateFile', filename: 'logs/login.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false,category: 'LOG'},
         { type: 'dateFile', filename: 'logs/auth.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false,category: 'AUT'},
-        { type: 'dateFile', filename: 'logs/portal.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false,category: 'POR'}
+        { type: 'dateFile', filename: 'logs/portal.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false,category: 'POR'},
+        { type: 'dateFile', filename: 'logs/password.log', pattern: '-yyyy-MM-dd', alwaysIncludePattern: false,category: 'PWD'}
     ]
 });
 

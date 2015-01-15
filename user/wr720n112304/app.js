@@ -25,9 +25,6 @@ var checkPassword = function(password, mac, cb) {
 };
 
 exports.login = function(req, res, next) {
-    console.log('login:');
-    console.log(req.url);
-    console.log(req.query);
     token.checkMac(routeName, req.query.mac, function(err, token) {
         if (err) {
             route.getList(routeName, req.query.mac, function(err, list) {
@@ -52,7 +49,6 @@ exports.login = function(req, res, next) {
 };
 
 exports.password = function(req, res, next) {
-    console.log('Enter password: ' + req.body.pwd);
     checkPassword(req.body.pwd, req.query.mac, function(err, token) {
         if(err) {
             res.sendFile('failure.html', {
