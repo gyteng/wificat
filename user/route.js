@@ -2,6 +2,8 @@ var log4js = require('log4js');
 var logLOG = log4js.getLogger('LOG');
 var logPWD = log4js.getLogger('PWD');
 var logPIN = log4js.getLogger('PIN');
+var logAUT = log4js.getLogger('AUT');
+var logPOR = log4js.getLogger('POR');
 
 exports.login = function(req, res, next) {
     try {
@@ -28,9 +30,10 @@ exports.password = function(req, res, next) {
 exports.auth = function(req, res, next) {
     try {
         var app = require('./' + req.query.gw_id + '/app.js');
+        logAUT.info(req.url + '\n' + JSON.stringify(req.query, null, 4));
         app.auth(req, res, next);
     } catch (e) {
-        console.log(e);
+        logAUT.error(req.url + '\n' + JSON.stringify(req.query, null, 4));
         res.send('Error[' + req.query.gw_id + ']');
     }
 };
@@ -38,9 +41,10 @@ exports.auth = function(req, res, next) {
 exports.portal = function(req, res, next) {
     try {
         var app = require('./' + req.query.gw_id + '/app.js');
+        logPOR.info(req.url + '\n' + JSON.stringify(req.query, null, 4));
         app.portal(req, res, next);
     } catch (e) {
-        console.log(e);
+        logPOR.error(req.url + '\n' + JSON.stringify(req.query, null, 4));
         res.send('Error[' + req.query.gw_id + ']');
     }
 };

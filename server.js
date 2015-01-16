@@ -14,6 +14,7 @@ app.use(multer());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// js and css file
 app.use(express.static(__dirname));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 

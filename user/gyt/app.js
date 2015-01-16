@@ -99,7 +99,9 @@ exports.ping = function(req, res, next) {
         if (err) {
 
         } else if (!data) {
-
+            createDatabase(function(err, data) {
+                
+            });
         } else {
             res.send('Pong');
         }
