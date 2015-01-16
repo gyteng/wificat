@@ -5,6 +5,7 @@ var token     = require('../../db/token.js');
 
 var routeName = 'gyt';
 
+// 检查密码，正确则返回token
 var checkPassword = function(password, mac, cb) {
     route.getPassword(routeName, password, function(err, data) {
         if(err) {
@@ -22,12 +23,18 @@ var checkPassword = function(password, mac, cb) {
                 }
                 token.addToken(routeName, mac, data.time, cb);
             });
+        } else {
+            cb(err); return;
         }
     });
 };
 
+var createDatabase = function(cb) {
+
+};
+
 exports.login = function(req, res, next ) {
-    token.checkMac(routeName, req.query.mac, function(err, token) {
+    token.checkMac(routeName, req.query.mac, function(err, myToken) {
         if (err) {
             route.getList(routeName, req.query.mac, function(err, list) {
                 var welcome = '';
@@ -46,7 +53,7 @@ exports.login = function(req, res, next ) {
             });
             return;
         }
-        res.redirect('http://' + req.query.gw_address + ':' + req.query.gw_port + '/wifidog/auth?token=' + token);
+        res.redirect('http://' + req.query.gw_address + ':' + req.query.gw_port + '/wifidog/auth?token=' + myToken);
     });
 };
 
@@ -68,8 +75,6 @@ exports.password = function(req, res, next) {
 };
 
 exports.auth = function(req, res, next) {
-    console.log(req.url);
-    console.log(req.query);
     token.checkToken(req.query.token, function(err, data) {
         if(err) {
             res.send('Auth: 0');
@@ -85,6 +90,18 @@ exports.portal = function(req, res, next) {
     }, function(err) {
         if (err) {
             res.sendStatus(404);
+        }
+    });
+};
+
+exports.ping = function(req, res, next) {
+    route.getRoute(routeName, function(err, data) {
+        if (err) {
+
+        } else if (!data) {
+
+        } else {
+            res.send('Pong');
         }
     });
 };

@@ -89,6 +89,18 @@ exports.portal = function(req, res, next) {
     });
 };
 
+exports.ping = function(req, res, next) {
+    route.getRoute(routeName, function(err, data) {
+        if (err) {
+
+        } else if (!data) {
+
+        } else {
+            res.send('Pong');
+        }
+    });
+};
+
 exports.qrcode = function(req, res, next) {
     var random = Math.ceil(Math.random()*100000000000).toString();
     var passwordPretty = random.substring(0,4) + '&nbsp;' + random.substring(4,8) + '&nbsp;' + random.substring(8);

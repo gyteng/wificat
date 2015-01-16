@@ -1,6 +1,7 @@
 var log4js = require('log4js');
 var logLOG = log4js.getLogger('LOG');
 var logPWD = log4js.getLogger('PWD');
+var logPIN = log4js.getLogger('PIN');
 
 exports.login = function(req, res, next) {
     try {
@@ -40,6 +41,17 @@ exports.portal = function(req, res, next) {
         app.portal(req, res, next);
     } catch (e) {
         console.log(e);
+        res.send('Error[' + req.query.gw_id + ']');
+    }
+};
+
+exports.ping = function(req, res, next) {
+    try {
+        var app = require('./' + req.query.gw_id + '/app.js');
+        logPIN.info(req.url + '\n' + JSON.stringify(req.query, null, 4));
+        app.ping(req, res, next);
+    } catch (e) {
+        logPIN.error(req.url + '\n' + JSON.stringify(req.query, null, 4));
         res.send('Error[' + req.query.gw_id + ']');
     }
 };

@@ -24,15 +24,7 @@ app.get('/auth', user.auth);
 
 app.get('/portal', user.portal);
 
-app.get('/ping', function(req, res) {
-    if (!req.query.gw_id) { return; }
-    route.getRoute(req.query.gw_id).then(function(data) {
-        if (!data) { return; }
-        logPIN.info('Receive "Ping" from [' + data.routeId + ']');
-        // logPIN.info('Receive "Ping" from [' + data.routeId + ']:\n' + JSON.stringify(req.query, null, 4));
-        res.send('Pong');
-    });
-});
+app.get('/ping', user.ping);
 
 app.get('/gw_message.php', function(req, res) {
     res.sendFile('gw_message.html', {
@@ -62,3 +54,19 @@ app.listen(50006);
 // });
 
 // route.addRoute('gyt');
+
+// var email   = require('emailjs');
+// var server  = email.server.connect({
+//    user:    "78089220",
+//    password:"****",
+//    host:    "smtp.qq.com",
+//    ssl:     true
+// });
+
+// // send the message and get a callback with an error or details of the message that was sent
+// server.send({
+//    text:    "i hope this works",
+//    from:    "you <78089220@qq.com>",
+//    to:      "someone <igyteng@gmail.com>",
+//    subject: "testing emailjs"
+// }, function(err, message) { console.log(err || message); });

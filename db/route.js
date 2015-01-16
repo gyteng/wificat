@@ -15,10 +15,9 @@ var RouteSchema = new Schema({
 
 var Route = mongoose.model('Route', RouteSchema);
 
-exports.getRoute = function(routeId) {
-    return mongoose.model('Route')
-    .findOne({routeId: routeId})
-    .exec();
+exports.getRoute = function(routeId, cb) {
+    mongoose.model('Route').findOne({routeId: routeId})
+    .exec(cb);
 };
 
 exports.getPassword = function(routeId, password, cb) {
@@ -76,14 +75,14 @@ exports.removePassword = function(routeId, password, cb) {
 exports.getList = function(routeId, mac, cb) {
     mongoose.model('Route')
     .findOne({routeId: routeId})
-    .select('list')
+    .select('mac')
     .exec(function(err, data) {
         if(err) { cb(err); return; }
         if(!data) { cb('Find nothing'); return; }
         data = JSON.parse(JSON.stringify(data));
-        for(var i in data.list) {
-            if(data.list[i].mac === mac) {
-                cb(null, data.list[i]);
+        for(var i in data.mac) {
+            if(data.mac[i].mac === mac) {
+                cb(null, data.mac[i]);
                 return;
             }
         }
