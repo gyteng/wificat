@@ -109,21 +109,28 @@ exports.ping = function(req, res, next) {
 };
 
 exports.plugins = function(req, res, next) {
-    var random = Math.ceil(Math.random()*100000000000).toString();
-    var passwordPretty = random.substring(0,4) + '&nbsp;' + random.substring(4,8) + '&nbsp;' + random.substring(8);
-    var time = new Date();
-    time = time.setTime(time.getTime() + 60 * 60000);
-    var password = {value: random, type : 2, time: time};
-    route.addPassword(routeName, password, function(err, data) {
-        if(!err) {
-            fs.readFile('./user/' + routeName + '/qrcode.html', function(err, data) {
-                if (err) {
-                    res.sendStatus(404);
-                    return;
-                }
-                res.send(data.toString().replace(/{{password}}/, passwordPretty));
-            });
-        }
-    });
+    try {
+        var plugin = require('./plugins/' + req.query.pluginName + '/app.js');
+        plugin.init(req, res, next);
+    } catch (e) {
+        res.send('Error[' + req.query.gw_id + ']');
+    }
+
+    // var random = Math.ceil(Math.random()*100000000000).toString();
+    // var passwordPretty = random.substring(0,4) + '&nbsp;' + random.substring(4,8) + '&nbsp;' + random.substring(8);
+    // var time = new Date();
+    // time = time.setTime(time.getTime() + 60 * 60000);
+    // var password = {value: random, type : 2, time: time};
+    // route.addPassword(routeName, password, function(err, data) {
+    //     if(!err) {
+    //         fs.readFile('./user/' + routeName + '/qrcode.html', function(err, data) {
+    //             if (err) {
+    //                 res.sendStatus(404);
+    //                 return;
+    //             }
+    //             res.send(data.toString().replace(/{{password}}/, passwordPretty));
+    //         });
+    //     }
+    // });
 };
 

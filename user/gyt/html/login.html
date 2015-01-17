@@ -14,30 +14,66 @@
 <body>
     <div class="container">
         <form action="{{request}}" method="post">
-            <div class="col-sm-12" style="height: 75px;"></div>
+            <div class="col-xs-12 col-md-12" style="height: 75px;"></div>
 
-            <div class="col-sm-4"></div>
-            <div class="col-sm-4">
+            <div class="col-xs-0 col-md-4"></div>
+            <div class="col-xs-12 col-md-4">
                 {{welcome}}
                 <label name="pwd" for="password">
                     <h3>请输入密码：</h3>
                 </label>
                 <input type="password" name="pwd" class="form-control input-lg" id="password" placeholder="Enter password">
             </div>
-            <div class="col-sm-4"></div>
+            <div class="col-xs-0 col-md-4"></div>
 
-            <div class="col-sm-12" style="height: 25px;"></div>
+            <div class="col-xs-12 col-md-12" style="height: 25px;"></div>
 
-            <div class="col-sm-5"></div>
-            <div class="col-sm-2">
+            <div class="col-xs-4 col-md-5"></div>
+            <div class="col-xs-4 col-md-2">
                 <button type="submit" class="btn btn-primary btn-block btn-lg">登陆</button>
             </div>
-            <div class="col-sm-5"></div>
+            <div class="col-xs-4 col-md-5"></div>
         </form>
+
+        <div class="col-xs-12 col-md-12" style="height: 75px;"></div>
+
+        <div class="col-xs-0 col-md-4"></div>
+        <div class="col-xs-12 col-md-4">
+            <h4>输入邮箱获取密码</h4>
+        </div>
+        <div class="col-xs-0 col-md-4"></div>
+
+        <div class="col-xs-12 col-md-12"></div>
+
+        <div class="col-xs-0 col-md-4"></div>
+        <div class="col-xs-12 col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" id="emailAddress" placeholder="邮箱地址">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" id="sendEmail" data-loading-text="已发送" autocomplete="off">
+                        发送
+                    </button>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-0 col-md-4"></div>
+        <div class="col-xs-12 col-md-12" style="height: 20px;"></div>
     </div>
+
 
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script>
+    $('#sendEmail').on('click', function() {
+        var $btn = $(this).button('loading')
+        var emailAddress = $('#emailAddress').val();
+        $.get('../plugins/gyt', {pluginName: 'email', email: emailAddress}, function(data) {
+            console.log(data);
+        });
+            // business logic...
+        // $btn.button('reset')
+    })
+    </script>
 
 </body>
 
