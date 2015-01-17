@@ -60,10 +60,10 @@ exports.ping = function(req, res, next) {
     }
 };
 
-exports.qrcode = function(req, res, next) {
+exports.plugins = function(req, res, next) {
     try {
         var app = require('./' + req.params.routeId + '/app.js');
-        app.qrcode(req, res, next);
+        app.plugins(req, res, next);
     } catch (e) {
         console.log(e);
         res.send('Error[' + req.params.routeId + ']');

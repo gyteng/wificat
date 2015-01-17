@@ -39,7 +39,7 @@ app.get('/gw_message.php', function(req, res) {
     );
 });
 
-app.get('/qrcode/:routeId', user.qrcode);
+app.get('/plugins/:routeId', user.plugins);
 
 app.listen(50006);
 
@@ -71,3 +71,18 @@ app.listen(50006);
 //    to:      "someone <igyteng@gmail.com>",
 //    subject: "testing emailjs"
 // }, function(err, message) { console.log(err || message); });
+
+
+// thenjs(function(cb) {
+//     console.log('GG');
+//     cb(2, 1);
+// }).then(function(cb, err, data) {
+//     console.log('HH');
+//     console.log(err);
+//     console.log(data);
+// }, function(cb, var1, var2) {
+//     console.log('KK');
+//     console.log(var1);
+//     console.log(var2);
+// })
+// ;

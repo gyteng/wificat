@@ -42,7 +42,7 @@ exports.login = function(req, res, next ) {
                 } else {
                     welcome = '<h3>你好，' + list.name + '<h3><br>';
                 }
-                fs.readFile('./user/' + routeName + '/login.html', function(err, data) {
+                fs.readFile('./user/' + routeName + '/html/login.html', function(err, data) {
                     if (err) {
                         res.sendStatus(404);
                         return;
@@ -60,7 +60,7 @@ exports.login = function(req, res, next ) {
 exports.password = function(req, res, next) {
     checkPassword(req.body.pwd, req.query.mac, function(err, token) {
         if(err) {
-            res.sendFile('failure.html', {
+            res.sendFile('./html/failure.html', {
                 root: __dirname
             },
             function(err) {
@@ -85,7 +85,7 @@ exports.auth = function(req, res, next) {
 };
 
 exports.portal = function(req, res, next) {
-    res.sendFile('success.html', {
+    res.sendFile('./html/success.html', {
         root: __dirname
     }, function(err) {
         if (err) {
@@ -108,7 +108,7 @@ exports.ping = function(req, res, next) {
     });
 };
 
-exports.qrcode = function(req, res, next) {
+exports.plugins = function(req, res, next) {
     var random = Math.ceil(Math.random()*100000000000).toString();
     var passwordPretty = random.substring(0,4) + '&nbsp;' + random.substring(4,8) + '&nbsp;' + random.substring(8);
     var time = new Date();
