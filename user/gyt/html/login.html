@@ -68,7 +68,11 @@
         var $btn = $(this).button('loading')
         var emailAddress = $('#emailAddress').val();
         $.get('../plugins/gyt', {pluginName: 'email', email: emailAddress}, function(data) {
-            console.log(data);
+            if(data === 'success') {
+                console.log('success');
+            } else {
+                console.log(data);
+            }
         });
             // business logic...
         // $btn.button('reset')

@@ -58,8 +58,8 @@ app.listen(50006);
 
 // var email   = require('emailjs');
 // var server  = email.server.connect({
-//    user:    "78089220",
-//    password:"****",
+//    user:    "78089220@qq.com",
+//    password:"*****",
 //    host:    "smtp.qq.com",
 //    ssl:     true
 // });

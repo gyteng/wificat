@@ -65,7 +65,6 @@ exports.plugins = function(req, res, next) {
         var app = require('./' + req.params.routeId + '/app.js');
         app.plugins(req, res, next);
     } catch (e) {
-        console.log(e);
         res.send('Error[' + req.params.routeId + ']');
     }
 };
