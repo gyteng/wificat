@@ -57,7 +57,7 @@ app.get('/plugins/:routeId', user.plugins);
 
 // app.use('/', manager.router);
 
-app.get('/manager',
+app.get('/',
     function(req, res) {
         res.sendFile('./manager/html/login.html', {
                 root: __dirname
@@ -71,10 +71,18 @@ app.get('/manager',
     }
 );
 
-app.post('/manager',
+app.post('/',
   passport.authenticate('local', { successRedirect: '/ggg',
-                                   failureRedirect: '/manager'})
+                                   failureRedirect: '/'})
 );
+
+app.all('/ggg', function(req, res, next) {
+    if (req.isAuthenticated()) {
+        res.send('GG');
+    } else {
+        res.send('QQ');
+    }
+});
 
 passport.use(new LocalStrategy(
     function(username, password, done) {
