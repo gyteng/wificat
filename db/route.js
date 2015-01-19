@@ -10,7 +10,8 @@ mongoose.connection.on('error',function (err) {
 var RouteSchema = new Schema({
     routeId:String,
     auth   :Array,
-    mac    :Array
+    mac    :Array,
+    plugin :Array
 });
 
 var Route = mongoose.model('Route', RouteSchema);
@@ -96,4 +97,21 @@ exports.addRoute = function(routeId) {
         if (err) return handleError(err);
         }
     );
+};
+
+exports.getPlugin = function(routeId, plugin, cb) {
+    mongoose.model('Route')
+    .findOne({routeId: routeId})
+    .select('plugin')
+    .exec(function(err, data) {
+        if(err) { cb(err); return; }
+        if(!data) { cb('Find nothing'); return; }
+        for(var i in data.plugin) {
+            if(data.plugin[i].name === plugin) {
+                cb(null, data.plugin[i]);
+                return;
+            }
+        }
+        cb('Find nothing');
+    });
 };

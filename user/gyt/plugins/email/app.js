@@ -25,24 +25,22 @@ exports.init = function(req, res, next) {
             }
         });
     });
-
-
-
-    
 };
 
-var sendEmail = function(address, data, cb) {
-    var server = email.server.connect({
-        user: '78089220@qq.com',
-        password: '******',
-        host: 'smtp.qq.com',
-        ssl: true
+var sendEmail = function(address, text, cb) {
+    route.getPlugin(routeName, 'email', function(err, data) {
+        if(err) { cb(err); return; }
+        var server = email.server.connect({
+            user: data.username,
+            password: data.password,
+            host: data.host,
+            ssl: data.ssl
+        });
+        server.send({
+            text: '本次上网密码为：' + text.substring(0, 4) + ' ' + text.substring(4, 8) + ' ' + text.substring(8) + '，一小时内有效。',
+            from: data.from,
+            to: '<' + address + '>',
+            subject: 'Wi-Fi密码'
+        }, cb);
     });
-
-    server.send({
-        text: '本次上网密码为：' + data.substring(0,4) + ' ' + data.substring(4,8) + ' ' + data.substring(8) + '，一小时内有效。',
-        from: 'Gyt <78089220@qq.com>',
-        to: '<' + address + '>',
-        subject: 'Wi-Fi密码'
-    }, cb);
 };
