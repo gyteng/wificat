@@ -6,6 +6,7 @@ var config     = require('./config.js').conf;
 var route      = require('./db/route.js');
 var token      = require('./db/token.js');
 var user       = require('./user/route.js');
+var manager = require('./manager/app.js');
 
 var logPIN = log4js.getLogger('PIN');
 
@@ -40,6 +41,8 @@ app.get('/gw_message.php', function(req, res) {
 });
 
 app.get('/plugins/:routeId', user.plugins);
+
+app.use('/', manager.router);
 
 
 
