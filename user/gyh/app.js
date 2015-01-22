@@ -3,8 +3,9 @@ var async     = require('async');
 var route     = require('../../db/route.js');
 var token     = require('../../db/token.js');
 
-var routeName = 'wr720n112304';
+var routeName = 'gyh';
 
+// 检查密码，正确则返回token
 var checkPassword = function(password, mac, cb) {
     route.getPassword(routeName, password, function(err, data) {
         if(err) {
@@ -22,12 +23,18 @@ var checkPassword = function(password, mac, cb) {
                 }
                 token.addToken(routeName, mac, data.time, cb);
             });
+        } else {
+            cb(err); return;
         }
     });
 };
 
+var createDatabase = function(cb) {
+
+};
+
 exports.login = function(req, res, next ) {
-    token.checkMac(routeName, req.query.mac, function(err, token) {
+    token.checkMac(routeName, req.query.mac, function(err, myToken) {
         if (err) {
             route.getList(routeName, req.query.mac, function(err, list) {
                 var welcome = '';
@@ -35,7 +42,7 @@ exports.login = function(req, res, next ) {
                 } else {
                     welcome = '<h3>你好，' + list.name + '<h3><br>';
                 }
-                fs.readFile('./user/' + routeName + '/login.html', function(err, data) {
+                fs.readFile('./user/' + routeName + '/html/login.html', function(err, data) {
                     if (err) {
                         res.sendStatus(404);
                         return;
@@ -46,14 +53,14 @@ exports.login = function(req, res, next ) {
             });
             return;
         }
-        res.redirect('http://' + req.query.gw_address + ':' + req.query.gw_port + '/wifidog/auth?token=' + token);
+        res.redirect('http://' + req.query.gw_address + ':' + req.query.gw_port + '/wifidog/auth?token=' + myToken);
     });
 };
 
 exports.password = function(req, res, next) {
     checkPassword(req.body.pwd, req.query.mac, function(err, token) {
         if(err) {
-            res.sendFile('failure.html', {
+            res.sendFile('./html/failure.html', {
                 root: __dirname
             },
             function(err) {
@@ -68,8 +75,6 @@ exports.password = function(req, res, next) {
 };
 
 exports.auth = function(req, res, next) {
-    console.log(req.url);
-    console.log(req.query);
     token.checkToken(req.query.token, function(err, data) {
         if(err) {
             res.send('Auth: 0');
@@ -80,7 +85,7 @@ exports.auth = function(req, res, next) {
 };
 
 exports.portal = function(req, res, next) {
-    res.sendFile('success.html', {
+    res.sendFile('./html/success.html', {
         root: __dirname
     }, function(err) {
         if (err) {
@@ -94,29 +99,38 @@ exports.ping = function(req, res, next) {
         if (err) {
 
         } else if (!data) {
-
+            createDatabase(function(err, data) {
+                
+            });
         } else {
             res.send('Pong');
         }
     });
 };
 
-exports.qrcode = function(req, res, next) {
-    var random = Math.ceil(Math.random()*100000000000).toString();
-    var passwordPretty = random.substring(0,4) + '&nbsp;' + random.substring(4,8) + '&nbsp;' + random.substring(8);
-    var time = new Date();
-    time = time.setTime(time.getTime() + 60 * 60000);
-    var password = {value: random, type : 2, time: time};
-    route.addPassword(routeName, password, function(err, data) {
-        if(!err) {
-            fs.readFile('./user/' + routeName + '/qrcode.html', function(err, data) {
-                if (err) {
-                    res.sendStatus(404);
-                    return;
-                }
-                res.send(data.toString().replace(/{{password}}/, passwordPretty));
-            });
-        }
-    });
+exports.plugins = function(req, res, next) {
+    try {
+        var plugin = require('./plugins/' + req.query.pluginName + '/app.js');
+        plugin.init(req, res, next);
+    } catch (e) {
+        res.send('Error[' + req.query.gw_id + ']');
+    }
+
+    // var random = Math.ceil(Math.random()*100000000000).toString();
+    // var passwordPretty = random.substring(0,4) + '&nbsp;' + random.substring(4,8) + '&nbsp;' + random.substring(8);
+    // var time = new Date();
+    // time = time.setTime(time.getTime() + 60 * 60000);
+    // var password = {value: random, type : 2, time: time};
+    // route.addPassword(routeName, password, function(err, data) {
+    //     if(!err) {
+    //         fs.readFile('./user/' + routeName + '/qrcode.html', function(err, data) {
+    //             if (err) {
+    //                 res.sendStatus(404);
+    //                 return;
+    //             }
+    //             res.send(data.toString().replace(/{{password}}/, passwordPretty));
+    //         });
+    //     }
+    // });
 };
 
