@@ -114,7 +114,4 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   done(null, user);
 });
-
-
-
 app.listen(50006);
