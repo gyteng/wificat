@@ -72,17 +72,19 @@ app.get('/',
 );
 
 app.post('/',
-  passport.authenticate('local', { successRedirect: '/ggg',
+  passport.authenticate('local', { successRedirect: '/manager',
                                    failureRedirect: '/'})
 );
 
-app.all('/ggg', function(req, res, next) {
-    if (req.isAuthenticated()) {
-        res.send('GG');
-    } else {
-        res.send('QQ');
-    }
-});
+// app.all('/manager', function(req, res, next) {
+//     if (req.isAuthenticated()) {
+//         res.send('GG');
+//     } else {
+//         res.send('QQ');
+//     }
+// });
+
+app.use('/manager', manager.router);
 
 passport.use(new LocalStrategy(
     function(username, password, done) {
