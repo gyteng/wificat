@@ -116,5 +116,4 @@ passport.deserializeUser(function(user, done) {
 });
 
 
-
 app.listen(50006);
