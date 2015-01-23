@@ -65,7 +65,7 @@
     <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script>
     $('#sendEmail').on('click', function() {
-        var $btn = $(this).button('loading')
+        var $btn = $(this).button('loading');
         var emailAddress = $('#emailAddress').val();
         $.get('../plugins/gyt', {pluginName: 'email', email: emailAddress}, function(data) {
             if(data === 'success') {
@@ -76,7 +76,7 @@
         });
             
         // $btn.button('reset')
-    })
+    });
     </script>
 
 </body>
