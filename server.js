@@ -76,14 +76,6 @@ app.post('/',
                                    failureRedirect: '/'})
 );
 
-// app.all('/manager', function(req, res, next) {
-//     if (req.isAuthenticated()) {
-//         res.send('GG');
-//     } else {
-//         res.send('QQ');
-//     }
-// });
-
 app.use('/manager', manager.router);
 
 passport.use(new LocalStrategy(
